@@ -48,7 +48,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 700px;
-  max-height: 932px;
+  max-height: 932px; /* fallback for browsers without min()/dvh */
+  max-height: min(932px, calc(100dvh - 32px));
   padding: 20px 22px 22px 22px;
   background: linear-gradient(180deg, #fffdfc 0%, #fff6f0 60%, #ffece2 100%);
   border-radius: 28px;
@@ -457,14 +458,21 @@ body {
 
 /* --- Bottom navigation ---------------------------------------------------- */
 .bottom-nav {
+  /* Floating, rounded nav bar pinned near the bottom of the scrolling phone
+     frame so it is always reachable, even on long screens like the catalog.
+     margin-top:auto keeps it at the bottom when content is short. */
+  position: sticky;
+  bottom: 10px;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 8px 8px 8px;
-  border-top: 1.5px solid #f0e3da;
-  background-color: rgba(255, 255, 255, 0.95);
   margin-top: auto;
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
+  padding: 8px 6px;
+  border: 1px solid #f4e8df;
+  border-radius: 22px;
+  background-color: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
 }
 
