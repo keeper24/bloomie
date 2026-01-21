@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bloomie – Korean Skincare Guide</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Login Screen -->
+    <div id="screen-login" class="screen active">
+      <div class="phone-inner">
+        <div class="spacer-lg"></div>
+        <div class="centered-block">
+          <div class="app-name">Bloomie</div>
+          <div class="text-block placeholder-text">
+            Gentle Korean skincare guidance, made for your unique skin.
+          </div>
+        </div>
+
+        <div class="spacer-lg"></div>
+
+        <div class="stack">
+          <button class="button button-primary" onclick="app.login('google')">
+            Continue with Google
+          </button>
+          <button class="button button-primary" onclick="app.login('apple')">
+            Continue with Apple
+          </button>
+        </div>
+
+        <div class="spacer-flex"></div>
+
+        <p class="footer-text">
+          By continuing, you agree to our
+          <span class="link-placeholder" onclick="app.showScreen('settings')">Privacy Policy</span>
+          and
+          <span class="link-placeholder" onclick="app.showScreen('settings')">Terms</span>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Home Screen -->
+    <div id="screen-home" class="screen">
+      <div class="phone-inner">
+        <header class="top-bar">
+          <div class="top-bar-left placeholder-chip">Bloomie</div>
+          <div class="top-bar-right avatar-placeholder" onclick="app.showScreen('dashboard')"></div>
+        </header>
+
+        <div class="spacer-md"></div>
+
+        <div class="home-hero-image">
+          <div class="skin-glow"></div>
+          <div class="skin-texture"></div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="text-block">
+          <div class="placeholder-heading">Hi, <span id="user-name">Hana</span> 👋</div>
+          <div class="placeholder-text">
+            Let's find what really works for your skin today.
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="card card-primary" onclick="app.startDiagnostic()">
+          <div class="card-title">Start Skin Diagnostic</div>
+          <div class="card-text">
+            7 gentle questions • about 2 minutes.
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="stack">
+          <div class="card" onclick="app.showScreen('recommendations')">
+            <div class="card-title">View my matches</div>
+            <div class="card-text">
+              Products matched to your current skin profile.
+            </div>
+          </div>
+
+          <div class="card" onclick="app.showScreen('catalog')">
+            <div class="card-title">Browse all products</div>
+            <div class="card-text">
+              Explore all verified skincare items.
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <p class="trust-text">
+          Every product is reviewed and verified by Bloomie's criteria.
+          <span class="link-placeholder" onclick="app.showScreen('settings')">Learn how we verify</span>
+        </p>
+
+        <div class="spacer-md"></div>
+
+        <nav class="bottom-nav">
+          <div class="nav-item is-active" onclick="app.showScreen('home')">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-label">Home</div>
+          </div>
+          <div class="nav-item" onclick="app.showScreen('catalog')">
+            <div class="nav-icon">📚</div>
+            <div class="nav-label">Catalog</div>
+          </div>
+          <div class="nav-item" onclick="app.showScreen('dashboard')">
+            <div class="nav-icon">👤</div>
+            <div class="nav-label">Dashboard</div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Diagnostic Question Screen -->
+    <div id="screen-diagnostic" class="screen">
+      <div class="phone-inner">
+        <header class="top-bar">
+          <div class="back-link" onclick="app.goBackDiagnostic()">&larr; Back</div>
+          <div class="top-bar-title">Skin Diagnostic</div>
+        </header>
+
+        <div class="spacer-sm"></div>
+
+        <div class="progress">
+          <div class="progress-label">Step <span id="diagnostic-step">1</span> of 7</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 14%"></div>
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="text-block">
+          <div class="placeholder-heading" id="diagnostic-question">
+            Question text placeholder
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="stack" id="diagnostic-options">
+          <!-- Options will be populated by JavaScript -->
+        </div>
+
+        <div class="spacer-flex"></div>
+
+        <button class="button button-primary button-disabled" id="diagnostic-next" onclick="app.nextDiagnosticStep()">
+          Next
+        </button>
+      </div>
+    </div>
+
+    <!-- Diagnostic Result Screen -->
+    <div id="screen-result" class="screen">
+      <div class="phone-inner">
+        <header class="top-bar">
+          <div class="back-link" onclick="app.showScreen('home')">&larr; Back</div>
+          <div class="top-bar-title">Your Skin Result</div>
+        </header>
+
+        <div class="spacer-md"></div>
+
+        <div class="text-block">
+          <div class="placeholder-heading" id="result-skin-type">
+            Combination Skin
+          </div>
+          <div class="placeholder-text" id="result-subtext">
+            Short note about what this means for you.
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="text-block">
+          <div class="section-title">Key Concerns</div>
+          <ul class="bullet-list" id="result-concerns">
+            <!-- Populated by JavaScript -->
+          </ul>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="text-block">
+          <div class="section-title">Explanation</div>
+          <p class="paragraph-block" id="result-explanation">
+            Simple explanation text block in plain language.
+          </p>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <button class="button button-primary" onclick="app.showScreen('recommendations')">
+          View Recommendations
+        </button>
+
+        <div class="spacer-sm"></div>
+
+        <button class="button button-secondary" onclick="app.startDiagnostic()">
+          Retake Diagnostic
+        </button>
+
+        <div class="spacer-sm"></div>
+        <p class="footer-text">You can retake this anytime from your Dashboard.</p>
+      </div>
+    </div>
+
+    <!-- Recommendations Screen -->
+    <div id="screen-recommendations" class="screen">
+      <div class="phone-inner">
+        <header class="top-bar">
+          <div class="back-link" onclick="app.goBackFromRecommendations()">&larr; Back</div>
+          <div class="top-bar-title">Recommendations</div>
+        </header>
+
+        <div class="spacer-sm"></div>
+
+        <div class="text-block">
+          <div class="placeholder-text">
+            Based on your <span id="recommendations-skin-type">skin type</span> and concerns.
+            <span class="link-placeholder" onclick="app.showScreen('result')">View diagnostic</span>
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="stack" id="recommendations-list">
+          <!-- Product cards will be populated by JavaScript -->
+        </div>
+
+        <nav class="bottom-nav">
+          <div class="nav-item" onclick="app.showScreen('home')">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-label">Home</div>
+          </div>
+          <div class="nav-item" onclick="app.showScreen('catalog')">
+            <div class="nav-icon">📚</div>
+            <div class="nav-label">Catalog</div>
+          </div>
+          <div class="nav-item" onclick="app.showScreen('dashboard')">
+            <div class="nav-icon">👤</div>
+            <div class="nav-label">Dashboard</div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Product Detail Screen -->
+    <div id="screen-product-detail" class="screen">
+      <div class="phone-inner">
+        <header class="top-bar">
+          <div class="back-link" onclick="app.goBackFromProduct()">&larr; Back</div>
+          <div class="top-bar-title" id="product-detail-title">Product Details</div>
+        </header>
+
+        <div class="spacer-md"></div>
+
+        <div class="product-detail-image" id="product-detail-image" style="background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);">
+          <div class="product-emoji">✨</div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="text-block">
+          <div class="placeholder-heading" id="product-name">
+            Product name placeholder
+          </div>
+          <div class="placeholder-text" id="product-type">
+            Product category / type label.
+          </div>
+          <div class="tag" style="margin-top: 8px; display: inline-block;">Verified</div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="text-block">
+          <div class="section-title">Description</div>
+          <p class="paragraph-block" id="product-description">
+            Short description block for the product.
+          </p>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="collapsible">
+          <div class="collapsible-header" onclick="app.toggleIngredients()">
+            <span>Ingredients</span>
+            <span class="chevron-placeholder" id="ingredients-chevron">▼</span>
+          </div>
+          <div class="collapsible-body" id="ingredients-body" style="display: none;">
+            <p id="ingredients-content">Ingredients list will appear here.</p>
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="text-block">
+          <div class="section-title">Why this works for you</div>
+          <p class="paragraph-block" id="product-suitability">
+            Suitability explanation linking the product to your skin type.
+          </p>
+        </div>
+
+        <div class="spacer-flex"></div>
+
+        <button class="button button-primary" id="favorite-btn" onclick="app.toggleFavorite()">
+          Save to Favorites
+        </button>
+
+        <nav class="bottom-nav">
+          <div class="nav-item" onclick="app.showScreen('home')">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-label">Home</div>
+          </div>
+          <div class="nav-item" onclick="app.showScreen('catalog')">
+            <div class="nav-icon">📚</div>
+            <div class="nav-label">Catalog</div>
+          </div>
+          <div class="nav-item" onclick="app.showScreen('dashboard')">
+            <div class="nav-icon">👤</div>
+            <div class="nav-label">Dashboard</div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Catalog Screen -->
+    <div id="screen-catalog" class="screen">
+      <div class="phone-inner">
+        <header class="top-bar">
+          <div class="top-bar-title">Catalog</div>
+        </header>
+
+        <div class="spacer-md"></div>
+
+        <div class="filters-row">
+          <div class="filter-pill" onclick="app.showFilter('skin-type')">
+            Skin Type: <span id="filter-skin-type">Any</span>
+          </div>
+          <div class="filter-pill" onclick="app.showFilter('concern')">
+            Concern: <span id="filter-concern">Any</span>
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div class="stack" id="catalog-list">
+          <!-- Product cards will be populated by JavaScript -->
+        </div>
+
+        <nav class="bottom-nav">
+          <div class="nav-item" onclick="app.showScreen('home')">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-label">Home</div>
+          </div>
+          <div class="nav-item is-active" onclick="app.showScreen('catalog')">
+            <div class="nav-icon">📚</div>
+            <div class="nav-label">Catalog</div>
+          </div>
+          <div class="nav-item" onclick="app.showScreen('dashboard')">
+            <div class="nav-icon">👤</div>
+            <div class="nav-label">Dashboard</div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="screen-dashboard" class="screen">
+      <div class="phone-inner">
+        <header class="top-bar">
+          <div class="top-bar-title">Dashboard</div>
+          <div class="top-bar-right gear-placeholder" onclick="app.showScreen('settings')" style="cursor: pointer;">⚙️</div>
+        </header>
+
+        <div class="spacer-md"></div>
+
+        <section class="card">
+          <div class="section-title">My Skin Profile</div>
+          <p class="paragraph-block" id="dashboard-skin-profile">
+            Complete the diagnostic to see your skin profile.
+          </p>
+          <div class="link-placeholder" id="view-result-link" onclick="app.showScreen('result')" style="display: none; margin-top: 8px;">View full result</div>
+        </section>
+
+        <div class="spacer-md"></div>
+
+        <section class="card">
+          <div class="section-title">Favorite Products</div>
+          <div id="favorites-list">
+            <p class="paragraph-block" style="color: #a89f97;">No favorites yet. Start exploring products!</p>
+          </div>
+        </section>
+
+        <div class="spacer-md"></div>
+
+        <button class="button button-primary" onclick="app.startDiagnostic()">
+          Retake Diagnostic
+        </button>
+
+        <div class="spacer-sm"></div>
+
+        <button class="button button-secondary" onclick="app.showScreen('settings')">
+          Settings
+        </button>
+
+        <nav class="bottom-nav">
+          <div class="nav-item" onclick="app.showScreen('home')">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-label">Home</div>
+          </div>
+          <div class="nav-item" onclick="app.showScreen('catalog')">
+            <div class="nav-icon">📚</div>
+            <div class="nav-label">Catalog</div>
+          </div>
+          <div class="nav-item is-active" onclick="app.showScreen('dashboard')">
+            <div class="nav-icon">👤</div>
+            <div class="nav-label">Dashboard</div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="screen-settings" class="screen">
+      <div class="phone-inner">
+        <header class="top-bar">
+          <div class="back-link" onclick="app.goBackFromSettings()">&larr; Back</div>
+          <div class="top-bar-title">Settings</div>
+        </header>
+
+        <div class="spacer-md"></div>
+
+        <section class="settings-section">
+          <div class="section-title">Consent & Privacy</div>
+          <div class="list-rows">
+            <div class="list-row" onclick="app.showScreen('download')">
+              <span>Download My Data</span>
+              <span class="chevron-placeholder">→</span>
+            </div>
+            <div class="list-row" onclick="app.showInfo('consent')">
+              <span>Manage consent</span>
+              <span class="chevron-placeholder">→</span>
+            </div>
+            <div class="list-row" onclick="app.showInfo('privacy')">
+              <span>Privacy Policy</span>
+              <span class="chevron-placeholder">→</span>
+            </div>
+            <div class="list-row" onclick="app.showInfo('verification')">
+              <span>How Bloomie verifies products</span>
+              <span class="chevron-placeholder">→</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="spacer-md"></div>
+
+        <section class="settings-section">
+          <div class="section-title">Account</div>
+          <div class="stack">
+            <button class="button button-secondary" onclick="app.deleteAccount()">
+              Delete account
+            </button>
+            <button class="button button-primary" onclick="app.logout()">
+              Logout
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Download Page -->
+    <div id="screen-download" class="screen">
+      <div class="phone-inner">
+        <header class="top-bar">
+          <div class="back-link" onclick="app.showScreen('settings')">&larr; Back</div>
+          <div class="top-bar-title">Download My Data</div>
+        </header>
+
+        <div class="spacer-md"></div>
+
+        <div class="text-block">
+          <div class="placeholder-heading">Your Data Export</div>
+          <div class="placeholder-text">
+            Download all your Bloomie data including skin profile, favorites, and diagnostic results.
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <section class="card">
+          <div class="section-title">What's included:</div>
+          <ul class="bullet-list">
+            <li>Skin diagnostic results</li>
+            <li>Favorite products</li>
+            <li>Account information</li>
+            <li>Activity history</li>
+          </ul>
+        </section>
+
+        <div class="spacer-md"></div>
+
+        <button class="button button-primary" onclick="app.downloadData()">
+          Download Data (JSON)
+        </button>
+
+        <div class="spacer-sm"></div>
+
+        <button class="button button-secondary" onclick="app.downloadData('csv')">
+          Download Data (CSV)
+        </button>
+
+        <div class="spacer-md"></div>
+
+        <p class="footer-text">
+          Your data will be prepared and downloaded immediately. This may take a few moments.
+        </p>
+      </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="info-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-title">Info</h3>
+          <button class="modal-close" onclick="app.closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          Content will appear here.
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
