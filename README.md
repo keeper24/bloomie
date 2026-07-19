@@ -19,20 +19,8 @@ working front-end prototype.
 
 ## Demo
 
-<!--
-  To add the walkthrough video:
-  1. Record a short screen capture of the app.
-  2. Either drag-and-drop the .mp4 into this file while editing the README on
-     GitHub (GitHub hosts it and inserts a link), or commit it to assets/ and
-     reference it below.
-  3. Replace the placeholder line under "Walkthrough".
--->
-
-**Walkthrough:** _🎥 video coming soon — replace this line with the recording._
-
 **Screens:**
 
-<!-- Drop screenshots into assets/ and they will show up here. -->
 | Login | Home | Diagnostic | Result |
 | --- | --- | --- | --- |
 | ![Login](assets/login.png) | ![Home](assets/home.png) | ![Diagnostic](assets/diagnostic.png) | ![Result](assets/result.png) |
