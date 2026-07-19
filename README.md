@@ -8,7 +8,7 @@ from a catalog of verified K-beauty products. It was built as a university proje
 to practice product thinking end to end — spec, wireframes, data model, and a
 working front-end prototype.
 
-🔗 **Live demo:** https://keeper24.github.io/bloomie/
+🔗 **Live demo:** https://keeper24.github.io/bloomie_app/
 
 > **Note:** This is a front-end prototype. Social login is mocked, and the product
 > catalog and recommendations run entirely in the browser against local sample data
